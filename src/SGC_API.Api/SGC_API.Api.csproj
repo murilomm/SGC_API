@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SGC_API.Core\SGC_API.Core.csproj" />
+    <ProjectReference Include="..\SGC_API.Infrastructure\SGC_API.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
