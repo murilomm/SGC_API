@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SGC_API.Core.Entity.App
+﻿namespace SGC_API.Core.Entity
 {
     public class App : Generica
     {
