@@ -33,16 +33,19 @@ namespace SGC_API.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(50)")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<string>("Tipo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(20)")
+                        .HasMaxLength(100);
 
                     b.Property<int?>("UsuarioAlteracao")
                         .HasColumnType("int");
@@ -100,7 +103,8 @@ namespace SGC_API.Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CpfCnpj")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(14)")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("datetime2");
@@ -109,7 +113,8 @@ namespace SGC_API.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(50)")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
@@ -176,7 +181,8 @@ namespace SGC_API.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(50)")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
@@ -209,28 +215,34 @@ namespace SGC_API.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Documento")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Filiacao")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Genero")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(1)")
+                        .HasMaxLength(1);
 
                     b.Property<int>("Idade")
                         .HasColumnType("int");
 
                     b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Sobrenome")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(100)")
+                        .HasMaxLength(100);
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<string>("TipoDocumento")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(20)")
+                        .HasMaxLength(20);
 
                     b.Property<int?>("UsuarioAlteracao")
                         .HasColumnType("int");
@@ -375,13 +387,13 @@ namespace SGC_API.Infrastructure.Migrations
             modelBuilder.Entity("SGC_API.Core.Entity.AppUsuario", b =>
                 {
                     b.HasOne("SGC_API.Core.Entity.App", "App")
-                        .WithMany()
+                        .WithMany("AppsUsuarios")
                         .HasForeignKey("AppId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SGC_API.Core.Entity.Usuario", "Usuario")
-                        .WithMany()
+                        .WithMany("AppsUsuarios")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -390,13 +402,13 @@ namespace SGC_API.Infrastructure.Migrations
             modelBuilder.Entity("SGC_API.Core.Entity.ClienteUsuario", b =>
                 {
                     b.HasOne("SGC_API.Core.Entity.Cliente", "Cliente")
-                        .WithMany()
+                        .WithMany("ClientesUsuarios")
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SGC_API.Core.Entity.Usuario", "Usuario")
-                        .WithMany()
+                        .WithMany("ClientesUsuarios")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

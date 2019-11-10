@@ -18,9 +18,9 @@ namespace SGC_API.Infrastructure.Migrations
                     DataAlteracao = table.Column<DateTime>(nullable: true),
                     UsuarioCadastro = table.Column<int>(nullable: false),
                     UsuarioAlteracao = table.Column<int>(nullable: true),
-                    Nome = table.Column<string>(nullable: true),
-                    Tipo = table.Column<string>(nullable: true),
-                    Descricao = table.Column<string>(nullable: true)
+                    Nome = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: true),
+                    Tipo = table.Column<string>(type: "VARCHAR(20)", maxLength: 100, nullable: true),
+                    Descricao = table.Column<string>(type: "VARCHAR(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,8 +38,8 @@ namespace SGC_API.Infrastructure.Migrations
                     DataAlteracao = table.Column<DateTime>(nullable: true),
                     UsuarioCadastro = table.Column<int>(nullable: false),
                     UsuarioAlteracao = table.Column<int>(nullable: true),
-                    Nome = table.Column<string>(nullable: true),
-                    CpfCnpj = table.Column<string>(nullable: true)
+                    Nome = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: true),
+                    CpfCnpj = table.Column<string>(type: "VARCHAR(14)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -57,7 +57,7 @@ namespace SGC_API.Infrastructure.Migrations
                     DataAlteracao = table.Column<DateTime>(nullable: true),
                     UsuarioCadastro = table.Column<int>(nullable: false),
                     UsuarioAlteracao = table.Column<int>(nullable: true),
-                    Nome = table.Column<string>(nullable: true)
+                    Nome = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -75,12 +75,13 @@ namespace SGC_API.Infrastructure.Migrations
                     DataAlteracao = table.Column<DateTime>(nullable: true),
                     UsuarioCadastro = table.Column<int>(nullable: false),
                     UsuarioAlteracao = table.Column<int>(nullable: true),
-                    NomeCompleto = table.Column<string>(nullable: true),
+                    Nome = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: true),
+                    Sobrenome = table.Column<string>(type: "VARCHAR(100)", maxLength: 100, nullable: true),
                     Idade = table.Column<int>(nullable: false),
-                    Documento = table.Column<string>(nullable: true),
-                    TipoDocumento = table.Column<string>(nullable: true),
-                    Filiacao = table.Column<string>(nullable: true),
-                    Genero = table.Column<string>(nullable: true),
+                    Documento = table.Column<string>(type: "VARCHAR(20)", maxLength: 20, nullable: true),
+                    TipoDocumento = table.Column<string>(type: "VARCHAR(20)", maxLength: 20, nullable: true),
+                    Filiacao = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: true),
+                    Genero = table.Column<string>(type: "VARCHAR(1)", maxLength: 1, nullable: true),
                     Administrador = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -99,8 +100,8 @@ namespace SGC_API.Infrastructure.Migrations
                     DataAlteracao = table.Column<DateTime>(nullable: true),
                     UsuarioCadastro = table.Column<int>(nullable: false),
                     UsuarioAlteracao = table.Column<int>(nullable: true),
-                    AppId = table.Column<int>(nullable: true),
-                    UsuarioId = table.Column<int>(nullable: true)
+                    AppId = table.Column<int>(nullable: false),
+                    UsuarioId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,13 +111,13 @@ namespace SGC_API.Infrastructure.Migrations
                         column: x => x.AppId,
                         principalTable: "TBL_APP",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TBL_APP_USUARIO_TBL_USUARIO_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "TBL_USUARIO",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,8 +131,8 @@ namespace SGC_API.Infrastructure.Migrations
                     DataAlteracao = table.Column<DateTime>(nullable: true),
                     UsuarioCadastro = table.Column<int>(nullable: false),
                     UsuarioAlteracao = table.Column<int>(nullable: true),
-                    ClienteId = table.Column<int>(nullable: true),
-                    UsuarioId = table.Column<int>(nullable: true)
+                    ClienteId = table.Column<int>(nullable: false),
+                    UsuarioId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -141,13 +142,13 @@ namespace SGC_API.Infrastructure.Migrations
                         column: x => x.ClienteId,
                         principalTable: "TBL_CLIENTE",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TBL_CLIENTE_USUARIO_TBL_USUARIO_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "TBL_USUARIO",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -164,7 +165,7 @@ namespace SGC_API.Infrastructure.Migrations
                     Ddi = table.Column<string>(nullable: true),
                     Ddd = table.Column<string>(nullable: true),
                     Telefone = table.Column<string>(nullable: true),
-                    UsuarioId = table.Column<int>(nullable: true)
+                    UsuarioId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,7 +175,7 @@ namespace SGC_API.Infrastructure.Migrations
                         column: x => x.UsuarioId,
                         principalTable: "TBL_USUARIO",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -189,7 +190,7 @@ namespace SGC_API.Infrastructure.Migrations
                     UsuarioCadastro = table.Column<int>(nullable: false),
                     UsuarioAlteracao = table.Column<int>(nullable: true),
                     Endereco = table.Column<string>(nullable: true),
-                    UsuarioId = table.Column<int>(nullable: true)
+                    UsuarioId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,7 +200,7 @@ namespace SGC_API.Infrastructure.Migrations
                         column: x => x.UsuarioId,
                         principalTable: "TBL_USUARIO",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -220,7 +221,7 @@ namespace SGC_API.Infrastructure.Migrations
                     Cidade = table.Column<string>(nullable: true),
                     Estado = table.Column<string>(nullable: true),
                     Pais = table.Column<string>(nullable: true),
-                    UsuarioId = table.Column<int>(nullable: true)
+                    UsuarioId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -230,7 +231,7 @@ namespace SGC_API.Infrastructure.Migrations
                         column: x => x.UsuarioId,
                         principalTable: "TBL_USUARIO",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
