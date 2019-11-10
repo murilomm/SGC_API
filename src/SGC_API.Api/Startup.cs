@@ -4,7 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SGC_API.Core.Interfaces.Repository;
+using SGC_API.Core.Interfaces.Services;
+using SGC_API.Core.Services;
 using SGC_API.Infrastructure.Data;
+using SGC_API.Infrastructure.Repository;
 
 namespace SGC_API.Api
 {
@@ -24,6 +28,20 @@ namespace SGC_API.Api
 
             services.AddDbContext<ClienteContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            #region Injeção de dependência
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
+
+            services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IClienteService, ClienteService>();
+
+            services.AddScoped<IAppRepository, AppRepository>();
+            services.AddScoped<IAppService, AppService>();
+
+            services.AddScoped<ITerceiroRepository, TerceiroRepository>();
+            services.AddScoped<ITerceiroService, TerceiroService>();
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,7 +52,7 @@ namespace SGC_API.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
