@@ -10,6 +10,7 @@ namespace SGC_API.Core.Interfaces.Services
         Cliente Adicionar(Cliente entity);
         void Atualizar(Cliente entity);
         Cliente ObterPorId(int id);
+        Cliente ObterPorLoginSenha(string cpf, string senha);
         IEnumerable<Cliente> Buscar(Expression<Func<Cliente, bool>> predicado);
         IEnumerable<Cliente> ObterTodos();
         void Remover(Cliente entity);

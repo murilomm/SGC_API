@@ -38,8 +38,10 @@ namespace SGC_API.Infrastructure.Migrations
                     DataAlteracao = table.Column<DateTime>(nullable: true),
                     UsuarioCadastro = table.Column<int>(nullable: false),
                     UsuarioAlteracao = table.Column<int>(nullable: true),
-                    Nome = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: true),
-                    CpfCnpj = table.Column<string>(type: "VARCHAR(14)", maxLength: 100, nullable: true)
+                    Cpf = table.Column<string>(type: "VARCHAR(14)", maxLength: 100, nullable: true),
+                    Senha = table.Column<string>(type: "VARCHAR(20)", maxLength: 50, nullable: true),
+                    Token = table.Column<string>(type: "VARCHAR(200)", maxLength: 200, nullable: true),
+                    Nome = table.Column<string>(type: "VARCHAR(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -87,6 +89,37 @@ namespace SGC_API.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TBL_USUARIO", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClienteTerceiro",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Status = table.Column<bool>(nullable: false),
+                    DataCadastro = table.Column<DateTime>(nullable: false),
+                    DataAlteracao = table.Column<DateTime>(nullable: true),
+                    UsuarioCadastro = table.Column<int>(nullable: false),
+                    UsuarioAlteracao = table.Column<int>(nullable: true),
+                    ClienteId = table.Column<int>(nullable: false),
+                    TerceiroId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClienteTerceiro", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClienteTerceiro_TBL_CLIENTE_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "TBL_CLIENTE",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClienteTerceiro_TBL_TERCEIRO_TerceiroId",
+                        column: x => x.TerceiroId,
+                        principalTable: "TBL_TERCEIRO",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -235,6 +268,16 @@ namespace SGC_API.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClienteTerceiro_ClienteId",
+                table: "ClienteTerceiro",
+                column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClienteTerceiro_TerceiroId",
+                table: "ClienteTerceiro",
+                column: "TerceiroId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TBL_APP_USUARIO_AppId",
                 table: "TBL_APP_USUARIO",
                 column: "AppId");
@@ -273,13 +316,13 @@ namespace SGC_API.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ClienteTerceiro");
+
+            migrationBuilder.DropTable(
                 name: "TBL_APP_USUARIO");
 
             migrationBuilder.DropTable(
                 name: "TBL_CLIENTE_USUARIO");
-
-            migrationBuilder.DropTable(
-                name: "TBL_TERCEIRO");
 
             migrationBuilder.DropTable(
                 name: "TBL_USUARIO_CONTATO");
@@ -289,6 +332,9 @@ namespace SGC_API.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "TBL_USUARIO_ENDERECO");
+
+            migrationBuilder.DropTable(
+                name: "TBL_TERCEIRO");
 
             migrationBuilder.DropTable(
                 name: "TBL_APP");

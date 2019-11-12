@@ -1,19 +1,26 @@
-﻿using SGC_API.Core.Entity;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using SGC_API.Core.Entity;
 using SGC_API.Core.Interfaces.Repository;
 using SGC_API.Core.Interfaces.Services;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq.Expressions;
+using System.Security.Claims;
+using System.Text;
 
 namespace SGC_API.Core.Services
 {
     public class UsuarioService : IUsuarioService
     {
+        private readonly AppSettings _appSettings;
         private readonly IUsuarioRepository _usuarioRepository;
 
-        public UsuarioService(IUsuarioRepository usuarioRepository)
+        public UsuarioService(IUsuarioRepository usuarioRepository, IOptions<AppSettings> appSettings)
         {
             _usuarioRepository = usuarioRepository;
+            _appSettings = appSettings.Value;
         }
 
         public Usuario Adicionar(Usuario entity)

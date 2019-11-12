@@ -4,5 +4,6 @@ namespace SGC_API.Core.Interfaces.Repository
 {
     public interface IUsuarioRepository : IRepository<Usuario>
     {
+
     }
 }

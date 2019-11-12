@@ -9,41 +9,46 @@ namespace SGC_API.Core.Services
 {
     public class ClienteService : IClienteService
     {
-        private readonly IClienteRepository _ClienteRepository;
+        private readonly IClienteRepository _clienteRepository;
 
-        public ClienteService(IClienteRepository ClienteRepository)
+        public ClienteService(IClienteRepository clienteRepository)
         {
-            _ClienteRepository = ClienteRepository;
+            _clienteRepository = clienteRepository;
         }
 
         public Cliente Adicionar(Cliente entity)
         {
-            return _ClienteRepository.Adicionar(entity);
+            return _clienteRepository.Adicionar(entity);
         }
 
         public void Atualizar(Cliente entity)
         {
-            _ClienteRepository.Atualizar(entity);
+            _clienteRepository.Atualizar(entity);
+        }
+
+        public Cliente ObterPorLoginSenha(string cpf, string senha)
+        {
+            return _clienteRepository.ObterPorLoginSenha(cpf, senha);
         }
 
         public IEnumerable<Cliente> Buscar(Expression<Func<Cliente, bool>> predicado)
         {
-            return _ClienteRepository.Buscar(predicado);
+            return _clienteRepository.Buscar(predicado);
         }
 
         public Cliente ObterPorId(int id)
         {
-            return _ClienteRepository.ObterPorId(id);
+            return _clienteRepository.ObterPorId(id);
         }
 
         public IEnumerable<Cliente> ObterTodos()
         {
-            return _ClienteRepository.ObterTodos();
+            return _clienteRepository.ObterTodos();
         }
 
         public void Remover(Cliente entity)
         {
-            _ClienteRepository.Remover(entity);
+            _clienteRepository.Remover(entity);
         }
     }
 }

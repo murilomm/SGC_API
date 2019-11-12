@@ -1,14 +1,19 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using SGC_API.Core.Entity;
 using SGC_API.Core.Interfaces.Repository;
 using SGC_API.Core.Interfaces.Services;
 using SGC_API.Core.Services;
 using SGC_API.Infrastructure.Data;
 using SGC_API.Infrastructure.Repository;
+using System.Text;
 
 namespace SGC_API.Api
 {
@@ -30,6 +35,8 @@ namespace SGC_API.Api
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             #region Injeção de dependência
+            services.AddScoped<ILoginService, LoginService>();
+
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IUsuarioService, UsuarioService>();
 
@@ -42,6 +49,42 @@ namespace SGC_API.Api
             services.AddScoped<ITerceiroRepository, TerceiroRepository>();
             services.AddScoped<ITerceiroService, TerceiroService>();
             #endregion
+
+            services.AddCors();
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddMvcOptions(_ => _.EnableEndpointRouting = false);
+
+            // configure strongly typed settings objects
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("user", policy => policy.RequireClaim("Store", "user"));
+                options.AddPolicy("admin", policy => policy.RequireClaim("Store", "admin"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,11 +95,20 @@ namespace SGC_API.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseHttpsRedirection();
-
             app.UseRouting();
 
-            app.UseAuthorization();
+
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            app.UseAuthentication();
+
+            app.UseMvc();
+
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

@@ -9,6 +9,6 @@ namespace SGC_API.Infrastructure.Repository
         public UsuarioRepository(ClienteContext dbContext) : base(dbContext)
         {
 
-        }
+        }        
     }
 }

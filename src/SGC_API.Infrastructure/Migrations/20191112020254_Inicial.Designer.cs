@@ -10,7 +10,7 @@ using SGC_API.Infrastructure.Data;
 namespace SGC_API.Infrastructure.Migrations
 {
     [DbContext(typeof(ClienteContext))]
-    [Migration("20191110003614_Inicial")]
+    [Migration("20191112020254_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,7 +104,7 @@ namespace SGC_API.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CpfCnpj")
+                    b.Property<string>("Cpf")
                         .HasColumnType("VARCHAR(14)")
                         .HasMaxLength(100);
 
@@ -118,8 +118,16 @@ namespace SGC_API.Infrastructure.Migrations
                         .HasColumnType("VARCHAR(50)")
                         .HasMaxLength(50);
 
+                    b.Property<string>("Senha")
+                        .HasColumnType("VARCHAR(20)")
+                        .HasMaxLength(50);
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("VARCHAR(200)")
+                        .HasMaxLength(200);
 
                     b.Property<int?>("UsuarioAlteracao")
                         .HasColumnType("int");
@@ -130,6 +138,43 @@ namespace SGC_API.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TBL_CLIENTE");
+                });
+
+            modelBuilder.Entity("SGC_API.Core.Entity.ClienteTerceiro", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DataAlteracao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TerceiroId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UsuarioAlteracao")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioCadastro")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("TerceiroId");
+
+                    b.ToTable("ClienteTerceiro");
                 });
 
             modelBuilder.Entity("SGC_API.Core.Entity.ClienteUsuario", b =>
@@ -397,6 +442,21 @@ namespace SGC_API.Infrastructure.Migrations
                     b.HasOne("SGC_API.Core.Entity.Usuario", "Usuario")
                         .WithMany("AppsUsuarios")
                         .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SGC_API.Core.Entity.ClienteTerceiro", b =>
+                {
+                    b.HasOne("SGC_API.Core.Entity.Cliente", "Cliente")
+                        .WithMany("ClientesTerceiros")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SGC_API.Core.Entity.Terceiro", "Terceiro")
+                        .WithMany("ClientesTerceiros")
+                        .HasForeignKey("TerceiroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
