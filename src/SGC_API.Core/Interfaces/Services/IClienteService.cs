@@ -1,6 +1,6 @@
 ﻿using SGC_API.Core.Entity;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace SGC_API.Core.Interfaces.Services
@@ -11,8 +11,8 @@ namespace SGC_API.Core.Interfaces.Services
         void Atualizar(Cliente entity);
         Cliente ObterPorId(int id);
         Cliente ObterPorLoginSenha(string cpf, string senha);
-        IEnumerable<Cliente> Buscar(Expression<Func<Cliente, bool>> predicado);
-        IEnumerable<Cliente> ObterTodos();
-        void Remover(Cliente entity);
+        IQueryable<Cliente> Buscar(Expression<Func<Cliente, bool>> predicado);
+        IQueryable<Cliente> ObterTodos();
+        void Remover(int id);
     }
 }

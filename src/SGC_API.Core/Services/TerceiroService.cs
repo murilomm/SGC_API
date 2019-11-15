@@ -2,7 +2,7 @@
 using SGC_API.Core.Interfaces.Repository;
 using SGC_API.Core.Interfaces.Services;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace SGC_API.Core.Services
@@ -18,15 +18,17 @@ namespace SGC_API.Core.Services
 
         public Terceiro Adicionar(Terceiro entity)
         {
+            entity.DataCadastro = DateTime.Now;
             return _TerceiroRepository.Adicionar(entity);
         }
 
         public void Atualizar(Terceiro entity)
         {
+            entity.DataAlteracao = DateTime.Now;
             _TerceiroRepository.Atualizar(entity);
         }
 
-        public IEnumerable<Terceiro> Buscar(Expression<Func<Terceiro, bool>> predicado)
+        public IQueryable<Terceiro> Buscar(Expression<Func<Terceiro, bool>> predicado)
         {
             return _TerceiroRepository.Buscar(predicado);
         }
@@ -36,14 +38,14 @@ namespace SGC_API.Core.Services
             return _TerceiroRepository.ObterPorId(id);
         }
 
-        public IEnumerable<Terceiro> ObterTodos()
+        public IQueryable<Terceiro> ObterTodos()
         {
             return _TerceiroRepository.ObterTodos();
         }
 
-        public void Remover(Terceiro entity)
+        public void Remover(int id)
         {
-            _TerceiroRepository.Remover(entity);
+            _TerceiroRepository.Remover(id);
         }
     }
 }

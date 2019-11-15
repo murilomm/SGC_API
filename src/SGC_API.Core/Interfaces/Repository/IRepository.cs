@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace SGC_API.Core.Interfaces.Repository
@@ -9,8 +9,8 @@ namespace SGC_API.Core.Interfaces.Repository
         TEntity Adicionar(TEntity entity);
         void Atualizar(TEntity entity);
         TEntity ObterPorId(int id);
-        IEnumerable<TEntity> Buscar(Expression<Func<TEntity, bool>> predicado);
-        IEnumerable<TEntity> ObterTodos();
-        void Remover(TEntity entity);
+        IQueryable<TEntity> Buscar(Expression<Func<TEntity, bool>> predicado);
+        IQueryable<TEntity> ObterTodos();
+        void Remover(int id);
     }
 }

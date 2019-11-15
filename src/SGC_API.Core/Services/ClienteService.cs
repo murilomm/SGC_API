@@ -2,7 +2,7 @@
 using SGC_API.Core.Interfaces.Repository;
 using SGC_API.Core.Interfaces.Services;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace SGC_API.Core.Services
@@ -18,11 +18,13 @@ namespace SGC_API.Core.Services
 
         public Cliente Adicionar(Cliente entity)
         {
+            entity.DataCadastro = DateTime.Now;
             return _clienteRepository.Adicionar(entity);
         }
 
         public void Atualizar(Cliente entity)
         {
+            entity.DataAlteracao = DateTime.Now;
             _clienteRepository.Atualizar(entity);
         }
 
@@ -31,7 +33,7 @@ namespace SGC_API.Core.Services
             return _clienteRepository.ObterPorLoginSenha(cpf, senha);
         }
 
-        public IEnumerable<Cliente> Buscar(Expression<Func<Cliente, bool>> predicado)
+        public IQueryable<Cliente> Buscar(Expression<Func<Cliente, bool>> predicado)
         {
             return _clienteRepository.Buscar(predicado);
         }
@@ -41,14 +43,14 @@ namespace SGC_API.Core.Services
             return _clienteRepository.ObterPorId(id);
         }
 
-        public IEnumerable<Cliente> ObterTodos()
+        public IQueryable<Cliente> ObterTodos()
         {
             return _clienteRepository.ObterTodos();
         }
 
-        public void Remover(Cliente entity)
+        public void Remover(int id)
         {
-            _clienteRepository.Remover(entity);
+            _clienteRepository.Remover(id);
         }
     }
 }

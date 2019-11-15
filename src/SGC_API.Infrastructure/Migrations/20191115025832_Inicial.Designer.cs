@@ -10,7 +10,7 @@ using SGC_API.Infrastructure.Data;
 namespace SGC_API.Infrastructure.Migrations
 {
     [DbContext(typeof(ClienteContext))]
-    [Migration("20191112020254_Inicial")]
+    [Migration("20191115025832_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,9 @@ namespace SGC_API.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("datetime2");
@@ -57,17 +60,17 @@ namespace SGC_API.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClienteId");
+
                     b.ToTable("TBL_APP");
                 });
 
             modelBuilder.Entity("SGC_API.Core.Entity.AppUsuario", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<int>("AppId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DataAlteracao")
@@ -75,6 +78,9 @@ namespace SGC_API.Infrastructure.Migrations
 
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
@@ -85,12 +91,9 @@ namespace SGC_API.Infrastructure.Migrations
                     b.Property<int>("UsuarioCadastro")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
+                    b.HasKey("AppId", "UsuarioId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppId");
+                    b.HasAlternateKey("Id");
 
                     b.HasIndex("UsuarioId");
 
@@ -140,86 +143,15 @@ namespace SGC_API.Infrastructure.Migrations
                     b.ToTable("TBL_CLIENTE");
                 });
 
-            modelBuilder.Entity("SGC_API.Core.Entity.ClienteTerceiro", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("TerceiroId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UsuarioAlteracao")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsuarioCadastro")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClienteId");
-
-                    b.HasIndex("TerceiroId");
-
-                    b.ToTable("ClienteTerceiro");
-                });
-
-            modelBuilder.Entity("SGC_API.Core.Entity.ClienteUsuario", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("UsuarioAlteracao")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsuarioCadastro")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClienteId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("TBL_CLIENTE_USUARIO");
-                });
-
             modelBuilder.Entity("SGC_API.Core.Entity.Terceiro", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("datetime2");
@@ -242,6 +174,8 @@ namespace SGC_API.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClienteId");
+
                     b.ToTable("TBL_TERCEIRO");
                 });
 
@@ -254,6 +188,9 @@ namespace SGC_API.Infrastructure.Migrations
 
                     b.Property<bool>("Administrador")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DataAlteracao")
                         .HasColumnType("datetime2");
@@ -298,6 +235,8 @@ namespace SGC_API.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("TBL_USUARIO");
                 });
@@ -431,6 +370,13 @@ namespace SGC_API.Infrastructure.Migrations
                     b.ToTable("TBL_USUARIO_ENDERECO");
                 });
 
+            modelBuilder.Entity("SGC_API.Core.Entity.App", b =>
+                {
+                    b.HasOne("SGC_API.Core.Entity.Cliente", "Cliente")
+                        .WithMany("Apps")
+                        .HasForeignKey("ClienteId");
+                });
+
             modelBuilder.Entity("SGC_API.Core.Entity.AppUsuario", b =>
                 {
                     b.HasOne("SGC_API.Core.Entity.App", "App")
@@ -446,34 +392,18 @@ namespace SGC_API.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SGC_API.Core.Entity.ClienteTerceiro", b =>
+            modelBuilder.Entity("SGC_API.Core.Entity.Terceiro", b =>
                 {
                     b.HasOne("SGC_API.Core.Entity.Cliente", "Cliente")
-                        .WithMany("ClientesTerceiros")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SGC_API.Core.Entity.Terceiro", "Terceiro")
-                        .WithMany("ClientesTerceiros")
-                        .HasForeignKey("TerceiroId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Terceiros")
+                        .HasForeignKey("ClienteId");
                 });
 
-            modelBuilder.Entity("SGC_API.Core.Entity.ClienteUsuario", b =>
+            modelBuilder.Entity("SGC_API.Core.Entity.Usuario", b =>
                 {
                     b.HasOne("SGC_API.Core.Entity.Cliente", "Cliente")
-                        .WithMany("ClientesUsuarios")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SGC_API.Core.Entity.Usuario", "Usuario")
-                        .WithMany("ClientesUsuarios")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Usuarios")
+                        .HasForeignKey("ClienteId");
                 });
 
             modelBuilder.Entity("SGC_API.Core.Entity.UsuarioContato", b =>

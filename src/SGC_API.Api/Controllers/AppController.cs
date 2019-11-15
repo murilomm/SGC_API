@@ -2,8 +2,9 @@
 using SGC_API.Core.Entity;
 using SGC_API.Core.Interfaces.Services;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
 
 namespace SGC_API.Api.Controllers
 {
@@ -12,16 +13,25 @@ namespace SGC_API.Api.Controllers
     public class AppController : ControllerBase
     {
         private readonly IAppService _appService;
+        private readonly IClienteService _clienteService;
 
-        public AppController(IAppService AppService)
+        public AppController(IAppService appService,
+            IClienteService clienteService)
         {
-            _appService = AppService;
+            _appService = appService;
+            _clienteService = clienteService;
         }
 
-        [HttpGet]
-        public IEnumerable<App> ObterTodos()
+        [HttpGet("ObterTodos")]
+        public IQueryable<App> ObterTodos()
         {
             return _appService.ObterTodos();
+        }
+
+        [HttpGet("ObterClienteApps")]
+        public IQueryable<App> ObterClienteApps()
+        {
+            return _appService.Buscar(_ => _.Cliente.Id == GetUsuarioLogado());
         }
 
         [HttpGet("ObterPorId/{id}")]
@@ -31,27 +41,42 @@ namespace SGC_API.Api.Controllers
         }
 
         [HttpGet("Buscar")]
-        public IEnumerable<App> Buscar(Expression<Func<App, bool>> predicado)
+        public IQueryable<App> Buscar(Expression<Func<App, bool>> predicado)
         {
             return _appService.Buscar(predicado);
         }
 
         [HttpPost]
-        public App Adicionar(App App)
+        public App Adicionar([FromBody]App app)
         {
-            return _appService.Adicionar(App);
+            Cliente c = _clienteService.ObterPorId(GetUsuarioLogado());
+            app.Cliente = c;
+            
+            return _appService.Adicionar(app);
         }
 
         [HttpPut]
-        public void Atualizar(App App)
+        public void Atualizar([FromBody]App app)
         {
-            _appService.Atualizar(App);
+            _appService.Atualizar(app);
         }
 
-        [HttpDelete]
-        public void Remover(App App)
-        {   
-            _appService.Remover(App);
+        [HttpDelete("{id}")]
+        public void Remover(int id)
+        {
+            _appService.Remover(id);
+        }
+
+        private int GetUsuarioLogado()
+        {
+            int idCliente = 0;
+
+            if (User.Identity.Name != null)
+            {
+                int.TryParse(User.Identity.Name, out idCliente);
+            }
+
+            return idCliente;
         }
     }
 }

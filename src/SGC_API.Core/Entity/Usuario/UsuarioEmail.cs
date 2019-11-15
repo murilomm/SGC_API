@@ -4,6 +4,6 @@
     {
         public string Endereco { get; set; }
         public int UsuarioId { get; set; }
-        public Usuario Usuario { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

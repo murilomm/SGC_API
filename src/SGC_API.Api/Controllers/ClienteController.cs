@@ -2,7 +2,7 @@
 using SGC_API.Core.Entity;
 using SGC_API.Core.Interfaces.Services;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace SGC_API.Api.Controllers
@@ -18,8 +18,8 @@ namespace SGC_API.Api.Controllers
             _clienteService = ClienteService;
         }
 
-        [HttpGet]
-        public IEnumerable<Cliente> ObterTodos()
+        [HttpGet("ObterTodos")]
+        public IQueryable<Cliente> ObterTodos()
         {
             return _clienteService.ObterTodos();
         }
@@ -31,7 +31,7 @@ namespace SGC_API.Api.Controllers
         }
 
         [HttpGet("Buscar")]
-        public IEnumerable<Cliente> Buscar(Expression<Func<Cliente, bool>> predicado)
+        public IQueryable<Cliente> Buscar(Expression<Func<Cliente, bool>> predicado)
         {
             return _clienteService.Buscar(predicado);
         }
@@ -49,9 +49,9 @@ namespace SGC_API.Api.Controllers
         }
 
         [HttpDelete]
-        public void Remover(Cliente Cliente)
+        public void Remover(int id)
         {   
-            _clienteService.Remover(Cliente);
+            _clienteService.Remover(id);
         }
     }
 }

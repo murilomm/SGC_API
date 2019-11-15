@@ -1,14 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using SGC_API.Core.Entity;
 using SGC_API.Core.Interfaces.Repository;
 using SGC_API.Core.Interfaces.Services;
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Claims;
-using System.Text;
 
 namespace SGC_API.Core.Services
 {
@@ -25,15 +21,17 @@ namespace SGC_API.Core.Services
 
         public Usuario Adicionar(Usuario entity)
         {
+            entity.DataCadastro = DateTime.Now;
             return _usuarioRepository.Adicionar(entity);
         }
 
         public void Atualizar(Usuario entity)
         {
+            entity.DataAlteracao = DateTime.Now;
             _usuarioRepository.Atualizar(entity);
         }
 
-        public IEnumerable<Usuario> Buscar(Expression<Func<Usuario, bool>> predicado)
+        public IQueryable<Usuario> Buscar(Expression<Func<Usuario, bool>> predicado)
         {
             return _usuarioRepository.Buscar(predicado);
         }
@@ -43,14 +41,14 @@ namespace SGC_API.Core.Services
             return _usuarioRepository.ObterPorId(id);
         }
 
-        public IEnumerable<Usuario> ObterTodos()
+        public IQueryable<Usuario> ObterTodos()
         {
             return _usuarioRepository.ObterTodos();
         }
 
-        public void Remover(Usuario entity)
+        public void Remover(int id)
         {
-            _usuarioRepository.Remover(entity);
+            _usuarioRepository.Remover(id);
         }
     }
 }

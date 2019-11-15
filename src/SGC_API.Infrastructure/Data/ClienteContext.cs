@@ -20,7 +20,6 @@ namespace SGC_API.Infrastructure.Data
         public DbSet<AppUsuario> AppsUsuarios { get; set; }
        
         public DbSet<Cliente> Clientes { get; set; }
-        public DbSet<ClienteUsuario> ClientesUsuarios { get; set; }
         
         public DbSet<Terceiro> Terceiros { get; set; }
 
@@ -34,7 +33,6 @@ namespace SGC_API.Infrastructure.Data
             modelBuilder.Entity<App>().ToTable("TBL_APP");
             modelBuilder.Entity<AppUsuario>().ToTable("TBL_APP_USUARIO");
             modelBuilder.Entity<Cliente>().ToTable("TBL_CLIENTE");
-            modelBuilder.Entity<ClienteUsuario>().ToTable("TBL_CLIENTE_USUARIO");
             modelBuilder.Entity<Terceiro>().ToTable("TBL_TERCEIRO");
             #endregion
 
@@ -43,6 +41,8 @@ namespace SGC_API.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new AppMap());
             modelBuilder.ApplyConfiguration(new ClienteMap());
             modelBuilder.ApplyConfiguration(new TerceiroMap());
+
+            modelBuilder.ApplyConfiguration(new AppUsuarioMap());
             #endregion
         }
     }

@@ -2,7 +2,7 @@
 using SGC_API.Core.Entity;
 using SGC_API.Core.Interfaces.Services;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace SGC_API.Api.Controllers
@@ -19,7 +19,7 @@ namespace SGC_API.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Terceiro> ObterTodos()
+        public IQueryable<Terceiro> ObterTodos()
         {
             return _terceiroService.ObterTodos();
         }
@@ -31,7 +31,7 @@ namespace SGC_API.Api.Controllers
         }
 
         [HttpGet("Buscar")]
-        public IEnumerable<Terceiro> Buscar(Expression<Func<Terceiro, bool>> predicado)
+        public IQueryable<Terceiro> Buscar(Expression<Func<Terceiro, bool>> predicado)
         {
             return _terceiroService.Buscar(predicado);
         }
@@ -48,10 +48,10 @@ namespace SGC_API.Api.Controllers
             _terceiroService.Atualizar(Terceiro);
         }
 
-        [HttpDelete]
-        public void Remover(Terceiro Terceiro)
+        [HttpDelete("{id}")]
+        public void Remover(int id)
         {   
-            _terceiroService.Remover(Terceiro);
+            _terceiroService.Remover(id);
         }
     }
 }

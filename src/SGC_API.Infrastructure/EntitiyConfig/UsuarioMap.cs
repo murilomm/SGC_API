@@ -32,6 +32,10 @@ namespace SGC_API.Infrastructure.EntitiyConfig
                 .HasForeignKey(u => u.UsuarioId)
                 .HasPrincipalKey(u => u.Id);
 
+            builder
+                .HasOne(_ => _.Cliente)
+                .WithMany(_ => _.Usuarios);
+
 
             builder.Property(u => u.Nome).HasColumnType("VARCHAR(50)").HasMaxLength(50);
             builder.Property(u => u.Sobrenome).HasColumnType("VARCHAR(100)").HasMaxLength(100);

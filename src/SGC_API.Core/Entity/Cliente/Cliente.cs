@@ -9,7 +9,8 @@ namespace SGC_API.Core.Entity
         public string Token { get; set; }
         public string Nome { get; set; }        
 
-        public ICollection<ClienteUsuario> ClientesUsuarios { get; set; }
-        public ICollection<ClienteTerceiro> ClientesTerceiros { get; set; }
+        public virtual ICollection<App> Apps { get; set; }
+        public virtual ICollection<Usuario> Usuarios { get; set; }
+        public virtual ICollection<Terceiro> Terceiros { get; set; }
     }
 }

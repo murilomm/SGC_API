@@ -2,10 +2,8 @@
 using SGC_API.Core.Interfaces.Repository;
 using SGC_API.Infrastructure.Data;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace SGC_API.Infrastructure.Repository
 {
@@ -31,9 +29,9 @@ namespace SGC_API.Infrastructure.Repository
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<TEntity> Buscar(Expression<Func<TEntity, bool>> predicado)
+        public IQueryable<TEntity> Buscar(Expression<Func<TEntity, bool>> predicado)
         {
-            return _dbContext.Set<TEntity>().Where(predicado).AsEnumerable();
+            return _dbContext.Set<TEntity>().Where(predicado);
         }
 
         public virtual TEntity ObterPorId(int id)
@@ -41,13 +39,14 @@ namespace SGC_API.Infrastructure.Repository
             return _dbContext.Set<TEntity>().Find(id);
         }
 
-        public IEnumerable<TEntity> ObterTodos()
+        public IQueryable<TEntity> ObterTodos()
         {
-            return _dbContext.Set<TEntity>().AsEnumerable();
+            return _dbContext.Set<TEntity>();
         }
 
-        public void Remover(TEntity entity)
+        public void Remover(int id)
         {
+            var entity = _dbContext.Set<TEntity>().Find(id);
             _dbContext.Set<TEntity>().Remove(entity);
             _dbContext.SaveChanges();
         }

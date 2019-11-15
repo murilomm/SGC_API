@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace SGC_API.Infrastructure.Repository
 {
-    public class AppRepository : EFRepository<App>, IAppRepository
+    public class AppUsuarioRepository : EFRepository<AppUsuario>, IAppUsuarioRepository
     {
-        public AppRepository(ClienteContext dbContext) : base(dbContext)
+        public AppUsuarioRepository(ClienteContext dbContext) : base(dbContext)
         {
 
         }

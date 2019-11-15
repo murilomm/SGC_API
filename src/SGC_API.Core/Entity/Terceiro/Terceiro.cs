@@ -6,6 +6,6 @@ namespace SGC_API.Core.Entity
     {
         public string Nome { get; set; }
 
-        public ICollection<ClienteTerceiro> ClientesTerceiros { get; set; }
+        public virtual Cliente Cliente { get; set; }
     }
 }

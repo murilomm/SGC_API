@@ -11,6 +11,10 @@ namespace SGC_API.Infrastructure.EntitiyConfig
             builder
                 .HasKey(u => u.Id);
 
+            builder
+                .HasOne(_ => _.Cliente)
+                .WithMany(_ => _.Terceiros);
+
             builder.Property(u => u.Nome).HasColumnType("VARCHAR(50)").HasMaxLength(50);
         }
     }

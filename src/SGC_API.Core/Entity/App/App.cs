@@ -8,6 +8,7 @@ namespace SGC_API.Core.Entity
         public string Tipo { get; set; }
         public string Descricao { get; set; }
 
-        public ICollection<AppUsuario> AppsUsuarios { get; set; }
+        public virtual Cliente Cliente { get; set; }
+        public virtual ICollection<AppUsuario> AppsUsuarios { get; set; }
     }
 }

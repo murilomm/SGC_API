@@ -1,6 +1,6 @@
 ﻿using SGC_API.Core.Entity;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace SGC_API.Core.Interfaces.Services
@@ -10,8 +10,8 @@ namespace SGC_API.Core.Interfaces.Services
         Terceiro Adicionar(Terceiro entity);
         void Atualizar(Terceiro entity);
         Terceiro ObterPorId(int id);
-        IEnumerable<Terceiro> Buscar(Expression<Func<Terceiro, bool>> predicado);
-        IEnumerable<Terceiro> ObterTodos();
-        void Remover(Terceiro entity);
+        IQueryable<Terceiro> Buscar(Expression<Func<Terceiro, bool>> predicado);
+        IQueryable<Terceiro> ObterTodos();
+        void Remover(int id);
     }
 }

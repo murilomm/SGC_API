@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SGC_API.Core.Interfaces.Repository
 {
-    public interface IAppRepository : IRepository<App>
+    public interface IAppUsuarioRepository : IRepository<AppUsuario>
     {
         
     }

@@ -10,6 +10,6 @@
         public string Estado { get; set; }
         public string Pais { get; set; }
         public int UsuarioId { get; set; }
-        public Usuario Usuario { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

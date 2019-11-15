@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using SGC_API.Core.Entity;
 using SGC_API.Core.Interfaces.Repository;
 using SGC_API.Core.Interfaces.Services;
@@ -32,7 +33,9 @@ namespace SGC_API.Api
             services.AddControllers();
 
             services.AddDbContext<ClienteContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options
+                    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                    //.UseLazyLoadingProxies());
 
             #region Injeção de dependência
             services.AddScoped<ILoginService, LoginService>();
@@ -48,12 +51,16 @@ namespace SGC_API.Api
 
             services.AddScoped<ITerceiroRepository, TerceiroRepository>();
             services.AddScoped<ITerceiroService, TerceiroService>();
+
+            services.AddScoped<IAppUsuarioRepository, AppUsuarioRepository>();
+            services.AddScoped<IAppUsuarioService, AppUsuarioService>();
             #endregion
 
             services.AddCors();
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                .AddMvcOptions(_ => _.EnableEndpointRouting = false);
+                .AddMvcOptions(_ => _.EnableEndpointRouting = false)
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
