@@ -44,9 +44,9 @@ namespace SGC_API.Core.Services
             return _appUsuarioRepository.ObterTodos();
         }
 
-        public void Remover(int id)
+        public void Remover(int appId, int usuarioId)
         {
-            _appUsuarioRepository.Remover(id);
+            _appUsuarioRepository.Remover(appId, usuarioId);
         }
     }
 }

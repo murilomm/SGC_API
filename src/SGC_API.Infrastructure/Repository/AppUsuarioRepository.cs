@@ -12,5 +12,12 @@ namespace SGC_API.Infrastructure.Repository
         {
 
         }
+
+        public void Remover(int appId, int usuarioId)
+        {
+            var entity = _dbContext.Set<AppUsuario>().Where(_ => _.AppId == appId && _.UsuarioId == usuarioId).FirstOrDefault();
+            _dbContext.Set<AppUsuario>().Remove(entity);
+            _dbContext.SaveChanges();
+        }
     }
 }

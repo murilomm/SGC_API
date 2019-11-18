@@ -5,6 +5,6 @@ namespace SGC_API.Core.Interfaces.Repository
 {
     public interface IAppUsuarioRepository : IRepository<AppUsuario>
     {
-        
+        void Remover(int appId, int usuarioId);
     }
 }

@@ -13,6 +13,6 @@ namespace SGC_API.Core.Interfaces.Services
         AppUsuario ObterPorId(int id);
         IQueryable<AppUsuario> Buscar(Expression<Func<AppUsuario, bool>> predicado);
         IQueryable<AppUsuario> ObterTodos();
-        void Remover(int id);
+        void Remover(int appId, int usuarioId);
     }
 }
